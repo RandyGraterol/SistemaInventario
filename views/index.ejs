@@ -1,0 +1,82 @@
+<%- include('partials/header') %>
+
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-10">
+    <div>
+      <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight flex items-center">
+        <svg class="h-7 w-7 mr-2 text-primary-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+        </svg>
+        Inventario Actual
+      </h1>
+      <p class="mt-2 text-gray-500 text-sm">Revisión rápida de los productos registrados y su disponibilidad.</p>
+    </div>
+    <a href="/agregar" class="mt-4 md:mt-0 inline-flex items-center px-5 py-2.5 rounded-lg bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium shadow transition-all">
+      <svg class="h-5 w-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6" />
+      </svg>
+      Nuevo Producto
+    </a>
+  </div>
+
+  <!-- Productos -->
+  <% if (productos.length > 0) { %>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% productos.forEach(producto => { %>
+        <div class="bg-white rounded-xl shadow hover:shadow-md border border-gray-200 transition">
+          <div class="p-5">
+            <div class="flex justify-between items-center">
+              <h2 class="text-lg font-semibold text-gray-900"><%= producto.nombre %></h2>
+              <span class="text-xs font-medium bg-primary-100 text-primary-800 px-2 py-0.5 rounded-full"><%= producto.categoria %></span>
+            </div>
+            <p class="mt-2 text-sm text-gray-600 line-clamp-3"><%= producto.descripcion %></p>
+            <div class="mt-4 space-y-1">
+              <div>
+                <span class="text-xs text-gray-500">Precio</span>
+                <p class="text-sm font-bold text-gray-800">$<%= producto.precio.toFixed(2) %></p>
+              </div>
+              <div>
+                <span class="text-xs text-gray-500">Stock</span>
+                <% if (producto.cantidad > 10) { %>
+                  <p class="text-sm font-semibold text-green-600"><%= producto.cantidad %> unidades</p>
+                <% } else if (producto.cantidad > 0) { %>
+                  <p class="text-sm font-semibold text-yellow-600"><%= producto.cantidad %> unidades</p>
+                <% } else { %>
+                  <p class="text-sm font-semibold text-red-600">Agotado</p>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-5 py-3 text-right">
+            <a href="/producto/<%= producto._id %>" class="text-sm font-medium text-primary-600 hover:text-primary-500 inline-flex items-center">
+              Más información
+              <svg class="ml-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <!-- No hay productos -->
+    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-md shadow-sm">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-6 w-6 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm text-yellow-800 font-medium">
+            Aún no has registrado ningún producto.
+            <a href="/agregar" class="underline font-semibold hover:text-yellow-700">Agrega uno aquí</a> para comenzar a llenar tu inventario.
+          </p>
+        </div>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<%- include('partials/footer') %>
